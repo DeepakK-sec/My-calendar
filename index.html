@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy Calendar</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 10px;
+    min-height: 100vh;
+  }
+
+  .calendar {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    max-width: 95%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+
+  .calendar h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .days-of-week, .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
+
+  .days-of-week div {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+
+  .dates div {
+    padding: 10px 0;
+    margin: 2px;
+    border-radius: 6px;
+    transition: 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .dates div:hover {
+    background: rgba(124,255,251,0.2);
+    cursor: pointer;
+  }
+
+  .today {
+    background: #00ffe7;
+    color: #000;
+    font-weight: bold;
+  }
+
+  /* Responsive for mobile */
+  @media (max-width: 400px) {
+    .calendar {
+      width: 100%;
+      padding: 15px;
+    }
+    .calendar h2 {
+      font-size: 1.2rem;
+    }
+    .days-of-week div, .dates div {
+      font-size: 0.8rem;
+      padding: 8px 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="calendar">
+    <h2 id="monthYear"></h2>
+    <div class="days-of-week">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div class="dates" id="dates"></div>
+  </div>
+
+<script>
+  const monthYear = document.getElementById('monthYear');
+  const datesEl = document.getElementById('dates');
+
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
+  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  // Empty cells before the first day
+  for(let i = 0; i < firstDay; i++){
+    const empty = document.createElement('div');
+    datesEl.appendChild(empty);
+  }
+
+  // Dates
+  for(let i = 1; i <= daysInMonth; i++){
+    const dateEl = document.createElement('div');
+    dateEl.textContent = i;
+    if(i === today.getDate()) dateEl.classList.add('today');
+    datesEl.appendChild(dateEl);
+  }
+</script>
+</body>
+</html>
